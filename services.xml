@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="services" default="all">
+
+
+    <property file="services.properties"/>
+    <!-- Uncomment the following property if no tests compilation is needed -->
+    <!--
+    <property name="skip.tests" value="true"/>
+     -->
+
+    <!-- Compiler options -->
+
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.generate.no.warnings" value="off"/>
+    <property name="compiler.args" value=""/>
+    <property name="compiler.max.memory" value="128m"/>
+    <patternset id="ignored.files">
+        <exclude name="**/CVS/**"/>
+        <exclude name="**/SCCS/**"/>
+        <exclude name="**/RCS/**"/>
+        <exclude name="**/rcs/**"/>
+        <exclude name="**/.DS_Store/**"/>
+        <exclude name="**/.svn/**"/>
+        <exclude name="**/.pyc/**"/>
+        <exclude name="**/.pyo/**"/>
+        <exclude name="**/*.pyc/**"/>
+        <exclude name="**/*.pyo/**"/>
+        <exclude name="**/.git/**"/>
+        <exclude name="**/*.hprof/**"/>
+        <exclude name="**/_svn/**"/>
+        <exclude name="**/.hg/**"/>
+        <exclude name="**/*.lib/**"/>
+        <exclude name="**/*~/**"/>
+        <exclude name="**/__pycache__/**"/>
+        <exclude name="**/.bundle/**"/>
+        <exclude name="**/*.rbc/**"/>
+        <exclude name="**/vssver.scc/**"/>
+        <exclude name="**/vssver2.scc/**"/>
+    </patternset>
+    <patternset id="library.patterns">
+        <include name="*.war"/>
+        <include name="*.ear"/>
+        <include name="*.apk"/>
+        <include name="*.zip"/>
+        <include name="*.swc"/>
+        <include name="*.ane"/>
+        <include name="*.egg"/>
+        <include name="*.jar"/>
+    </patternset>
+    <patternset id="compiler.resources">
+        <exclude name="**/?*.java"/>
+        <exclude name="**/?*.form"/>
+        <exclude name="**/?*.class"/>
+        <exclude name="**/?*.groovy"/>
+        <exclude name="**/?*.scala"/>
+        <exclude name="**/?*.flex"/>
+        <exclude name="**/?*.kt"/>
+        <exclude name="**/?*.clj!?*.drl"/>
+    </patternset>
+
+
+    <!-- Project Libraries -->
+
+    <path id="library.drools.classpath">
+        <fileset dir="${lib.home}/drools-distribution-5.5.0.Final/binaries">
+            <patternset refid="library.patterns"/>
+        </fileset>
+    </path>
+
+    <!-- Modules -->
+
+
+    <!-- Module services -->
+
+    <dirname property="module.services.basedir" file="${ant.file}"/>
+
+
+
+    <property name="compiler.args.services" value="${compiler.args}"/>
+
+    <property name="services.output.dir" value="${module.services.basedir}/out/production/services"/>
+    <property name="services.testoutput.dir" value="${module.services.basedir}/out/test/services"/>
+
+    <path id="services.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="services.module.production.classpath">
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.ejb-api.jar"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.servlet-api.jar"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.ws.rs-api.jar"/>
+        <pathelement location="${lib.home}/sqljdbc_4.0/enu/sqljdbc4.jar"/>
+        <pathelement location="${lib.home}/apache-openjpa-2.2.2/openjpa-all-2.2.2.jar"/>
+        <pathelement location="${lib.home}/junit.jar"/>
+        <path refid="library.drools.classpath"/>
+        <pathelement location="${lib.home}/google-gson-2.2.2/gson-2.2.2.jar"/>
+        <pathelement location="${lib.home}/slf4j-1.7.5/slf4j-simple-1.7.5.jar"/>
+    </path>
+
+    <path id="services.runtime.production.module.classpath">
+        <pathelement location="${services.output.dir}"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.ejb-api.jar"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.servlet-api.jar"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.ws.rs-api.jar"/>
+        <pathelement location="${lib.home}/sqljdbc_4.0/enu/sqljdbc4.jar"/>
+        <pathelement location="${lib.home}/apache-openjpa-2.2.2/openjpa-all-2.2.2.jar"/>
+        <pathelement location="${lib.home}/junit.jar"/>
+        <path refid="library.drools.classpath"/>
+        <pathelement location="${lib.home}/google-gson-2.2.2/gson-2.2.2.jar"/>
+        <pathelement location="${lib.home}/slf4j-1.7.5/slf4j-simple-1.7.5.jar"/>
+    </path>
+
+    <path id="services.module.classpath">
+        <pathelement location="${services.output.dir}"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.ejb-api.jar"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.servlet-api.jar"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.ws.rs-api.jar"/>
+        <pathelement location="${lib.home}/sqljdbc_4.0/enu/sqljdbc4.jar"/>
+        <pathelement location="${lib.home}/apache-openjpa-2.2.2/openjpa-all-2.2.2.jar"/>
+        <pathelement location="${lib.home}/junit.jar"/>
+        <path refid="library.drools.classpath"/>
+        <pathelement location="${lib.home}/google-gson-2.2.2/gson-2.2.2.jar"/>
+        <pathelement location="${lib.home}/slf4j-1.7.5/slf4j-simple-1.7.5.jar"/>
+    </path>
+
+    <path id="services.runtime.module.classpath">
+        <pathelement location="${services.testoutput.dir}"/>
+        <pathelement location="${services.output.dir}"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.ejb-api.jar"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.servlet-api.jar"/>
+        <pathelement location="${glassfish.home}/glassfish/modules/javax.ws.rs-api.jar"/>
+        <pathelement location="${lib.home}/sqljdbc_4.0/enu/sqljdbc4.jar"/>
+        <pathelement location="${lib.home}/apache-openjpa-2.2.2/openjpa-all-2.2.2.jar"/>
+        <pathelement location="${lib.home}/junit.jar"/>
+        <path refid="library.drools.classpath"/>
+        <pathelement location="${lib.home}/google-gson-2.2.2/gson-2.2.2.jar"/>
+        <pathelement location="${lib.home}/slf4j-1.7.5/slf4j-simple-1.7.5.jar"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.services">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.services">
+        <patternset refid="excluded.from.module.services"/>
+    </patternset>
+
+    <path id="services.module.sourcepath">
+        <dirset dir="${module.services.basedir}">
+            <include name="src"/>
+        </dirset>
+    </path>
+
+    <path id="services.module.test.sourcepath">
+        <dirset dir="${module.services.basedir}">
+            <include name="test"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.services" depends="compile.module.services.production,compile.module.services.tests" description="Compile module services"/>
+
+    <target name="compile.module.services.production" description="Compile module services; production classes">
+        <mkdir dir="${services.output.dir}"/>
+        <javac destdir="${services.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+            <compilerarg line="${compiler.args.services}"/>
+            <bootclasspath refid="services.module.bootclasspath"/>
+            <classpath refid="services.module.production.classpath"/>
+            <src refid="services.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.services"/>
+        </javac>
+
+        <copy todir="${services.output.dir}">
+            <fileset dir="${module.services.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.services.tests" depends="compile.module.services.production" description="compile module services; test classes" unless="skip.tests">
+        <mkdir dir="${services.testoutput.dir}"/>
+        <javac destdir="${services.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+            <compilerarg line="${compiler.args.services}"/>
+            <bootclasspath refid="services.module.bootclasspath"/>
+            <classpath refid="services.module.classpath"/>
+            <src refid="services.module.test.sourcepath"/>
+            <patternset refid="excluded.from.compilation.services"/>
+        </javac>
+
+        <copy todir="${services.testoutput.dir}">
+            <fileset dir="${module.services.basedir}/test">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean.module.services" description="cleanup module">
+        <delete dir="${services.output.dir}"/>
+        <delete dir="${services.testoutput.dir}"/>
+    </target>
+
+    <target name="init" description="Build initialization">
+        <!-- Perform any build initialization in this target -->
+    </target>
+
+    <target name="clean" depends="clean.module.services" description="cleanup all"/>
+
+    <target name="build.modules" depends="init, clean, compile.module.services, enhance" description="build all modules"/>
+
+    <target name="all" depends="build-war" description="build all"/>
+
+    <target name="build-war" depends="build.modules" description="build war">
+
+        <copy todir="${services.output.dir}/WEB-INF/lib">
+
+            <file file="${lib.home}/junit.jar"/>
+            <file file="${glassfish.home}/glassfish/modules/javax.ejb-api.jar"/>
+            <file file="${glassfish.home}/glassfish/modules/javax.servlet-api.jar"/>
+            <file file="${glassfish.home}/glassfish/modules/javax.ws.rs-api.jar"/>
+            <file file="${lib.home}/sqljdbc_4.0/enu/sqljdbc4.jar"/>
+            <file file="${glassfish.home}/glassfish/modules/javax.persistence.jar"/>
+            <file file="${lib.home}/apache-openjpa-2.2.2/openjpa-all-2.2.2.jar"/>
+            <fileset dir="${lib.home}/drools-distribution-5.5.0.Final/binaries">
+                <include name="*.jar" />
+            </fileset>
+            <file file="${lib.home}/google-gson-2.2.2/gson-2.2.2.jar"/>
+            <file file="${lib.home}/slf4j-1.7.5/slf4j-simple-1.7.5.jar"/>
+        </copy>
+        <war destfile="${module.services.basedir}/out/services.war" webxml="${basedir}/WEB-INF/web.xml">
+
+            <lib dir="${services.output.dir}/WEB-INF/lib"/>
+            <classes dir="${services.output.dir}"/>
+        </war>
+    </target>
+
+    <target name="enhance" depends="compile.module.services">
+
+        <path id="jpa.enhancement.classpath">
+            <pathelement location="${basedir}/out//production/services"/>
+
+            <!-- lib contains all of the jars that came with the OpenJPA binary download -->
+            <fileset dir="${lib.home}/apache-openjpa-2.2.2">
+                <include name="**/*.jar"/>
+            </fileset>
+        </path>
+
+        <!-- define the openjpac task -->
+        <taskdef name="openjpac" classname="org.apache.openjpa.ant.PCEnhancerTask">
+            <classpath refid="jpa.enhancement.classpath"/>
+        </taskdef>
+
+        <!-- invoke enhancer the enhancer -->
+        <openjpac>
+            <classpath refid="jpa.enhancement.classpath"/>
+        </openjpac>
+        <echo message="Enhancing complete."/>
+    </target>
+
+
+
+</project>

@@ -1,0 +1,125 @@
+import java.util.Collection;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+
+import name.eipi.services.dao.api.IDynamicDAO;
+import name.eipi.services.to.object.Response;
+
+
+global IDynamicDAO dao;
+global Response response;
+
+declare Result
+    id : Integer @key
+    detail : Object
+end
+
+declare Rule
+    name : String
+    active : Boolean
+end
+
+rule "Init"
+
+when
+
+then
+//    insert(new Rule("Get all users", true));
+//    insert(new Rule("Get me", true));
+//    insert(new Rule("Calc sum", true));
+//    insert(new Rule("Users born before 1986", true));
+//    insert(new Rule("Get all combinations of pairs", true));
+//    insert(new Rule("Count", true));
+    insert(new Rule("Collect", true));
+    insert(new Rule("Collect results", true));
+end
+
+rule "Get all users"
+
+when
+    Rule(name=="Get all users", active)
+    $map :  Map() from dao.execute("all")
+then
+    System.out.println($map);
+end
+
+
+rule "Get me"
+
+when
+    Rule(name=="Get me", active)
+    $map :  Map(this["user_id"] == 1) from dao.execute("all")
+then
+    System.out.println($map);
+end
+
+rule "Get all combinations of pairs"
+
+when
+    Rule(name=="Get all combinations of pairs", active)
+    $collection : Collection() from dao.get("all")
+    $map1 :  Map() from $collection
+    $map2 :  Map(this != $map1) from $collection
+
+then
+    ##System.out.print("$c=" + $collection);
+    System.out.print("$map1=" + $map1);
+    System.out.println("$map2=" + $map2);
+end
+
+
+rule "Calc sum"
+when
+    Rule(name=="Calc sum", active)
+    $results : Collection() from dao.get("all")
+    $total : Number()
+        from accumulate( $map : Map(this["dob"] < "1986-01-01", $value : Integer.parseInt(this["user_id"])) from $results,
+                              init( double total = 0; ),
+                              action( total += $value; ),
+                              #reverse( total -= $value; ),
+                              result( total ) )
+      $count : Number()
+              from accumulate( $map : Map(this["dob"] < "1986-01-01") from $results,
+                                    count($map))
+then
+    System.out.println("Total : " + $total);
+end
+
+rule "Count"
+when
+    Rule(name =="Count", active)
+    $results : Collection() from dao.get("all")
+    $count : Number() from accumulate( $map : Map(this["dob"] < "1986-01-01") from $results, count($map))
+then
+    System.out.println("Count : " + $count);
+end
+
+rule "Collect"
+when
+    Rule(name=="Collect", active)
+    c : Collection() from dao.get("all")
+    items : List() from collect( Map( this["dob"] < "1986-01-01" ) from c )
+then
+
+    insert(new Result(42, items));
+end
+
+rule "Users born before 1986"
+
+when
+    Rule(name=="Users born before 1986", active)
+    $user : Map(this["dob"] < "1986-01-01", $name : (this["first_name"] + " " + this["last_name"])) from dao.execute("all")
+then
+    ##System.out.println($user);
+    System.out.println($name);
+end
+
+rule "Collect results"
+
+when
+    Rule(name=="Collect results",  active)
+    $result : Result()
+then
+    response.getObjs().add($result);
+end

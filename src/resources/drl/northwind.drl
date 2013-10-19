@@ -1,0 +1,20 @@
+import java.util.Collection;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+
+import name.eipi.services.dao.api.IDynamicDAO;
+import name.eipi.services.to.object.Response;
+
+global IDynamicDAO dao;
+global Response response;
+
+rule "1"
+
+when
+    $item : Map(this["Quantity"] >=  10) from dao.execute("OrderDetails", 10248);
+
+then
+    response.add($item);
+    System.out.println($item);
+end

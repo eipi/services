@@ -1,0 +1,17 @@
+package name.eipi.monitor;
+
+rule "test1"
+when
+
+then
+    insert(new Integer(2));
+end
+
+rule "test2"
+when
+    $int : Integer();
+then
+    System.out.println($int);
+    retract($int);
+
+end

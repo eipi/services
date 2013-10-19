@@ -1,0 +1,38 @@
+package name.eipi.services.appservice.rule;
+
+import name.eipi.services.specific.*;
+
+rule init
+    when
+        not Fire()
+    then
+        System.out.println("All is well");
+    end
+
+rule alarm
+    when
+        $fire :  Fire($room : room)
+    then
+        System.out.println("Fire detected in " + $room);
+        insert(new Alarm($room));
+        System.out.println("Alarm raised");
+    end
+
+rule extinguish
+    when
+        $fire :  Fire($room : room)
+        $alarm : Alarm(room == $room)
+    then
+        retract($fire);
+        System.out.println("Extinguishing fire");
+        retract($alarm);
+        System.out.println("Resetting alarm");
+    end
+
+declare Indicator
+    value : Boolean
+    valid :  Boolean
+    detail : String
+end
+
+
